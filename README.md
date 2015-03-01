@@ -3,6 +3,6 @@ A TSP user friendly Solver.
 
 ## Project Info
 
-- **Language:** c++
-- **Idiom:** Spanish
+- **Code Language:** c++
+- **Comments Language:** Spanish
 - **License:** GNU GENERAL PUBLIC LICENSE
