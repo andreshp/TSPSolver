@@ -320,7 +320,7 @@ void TSPACO::resolver(int iteraciones){
 	*/
 	int num_ciudades = problema->numeroCiudades();
 	reservarEspacio(pares_hormigas);
-	TSPLocalSearch mejora_local(problema);
+	TSPLocalSearch mejora_local;
 	delete solucion;
 	solucion = NULL;
 

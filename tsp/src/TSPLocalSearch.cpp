@@ -1,14 +1,16 @@
 #include "TSPLocalSearch.h"
 
+                /* MÉTODOS PÚBLICOS */
+
 // Constructor de la clase:
-TSPLocalSearch::TSPLocalSearch(TSPProblema *nuevo_problema)
-    :nombre_mejora("2-OPT"), problema(nuevo_problema)
+TSPLocalSearch::TSPLocalSearch()
+    :OPT_2("2-OPT"), lin_kernighan("Lin-Kernighan")
 {}
 
 // Método que mejora la solucion dada:
-void TSPLocalSearch::mejorarSolucionMejorIntercambio(TSPSolucion *solucion) const{
-    
-    solucion->setMejora(nombre_mejora);
+void TSPLocalSearch::mejorarSolucionMejorIntercambio(TSPSolucion *solucion) const
+{
+    solucion->setMejora(OPT_2);
 
     /* Algoritmo:
             Realiza un intercambio que mejore la solución si este existe. Cuando no se realice ningún intercambio para.
@@ -21,9 +23,9 @@ void TSPLocalSearch::mejorarSolucionMejorIntercambio(TSPSolucion *solucion) cons
 }
 
 // Método que mejora la solucion dada:
-void TSPLocalSearch::mejorarSolucionPrimerIntercambio(TSPSolucion *solucion) const{
-    
-    solucion->setMejora(nombre_mejora);
+void TSPLocalSearch::mejorarSolucionPrimerIntercambio(TSPSolucion *solucion) const
+{    
+    solucion->setMejora(OPT_2);
 
     /* Algoritmo:
             Realiza un intercambio que mejore la solución si este existe. Cuando no se realice ningún intercambio para.
@@ -35,9 +37,22 @@ void TSPLocalSearch::mejorarSolucionPrimerIntercambio(TSPSolucion *solucion) con
     }
 }
 
+// Método que mejora la solución actual mediante el algoritmo de Lin-Kernighan:
+void TSPLocalSearch::LinKernighan(TSPSolucion *solucion, int num_ciudades){
+    bool cambio = true;
+    while(cambio){
+        for (int i = 0; i < num_ciudades; i++){    
+            cambio = solucion->iteracionLinKernighan(i);
+            if (cambio == true)
+                break;
+        }
+    }
+    solucion->setMejora(lin_kernighan);
+}
+
 // Método que, dada una solución, devuelve una mejora de la misma:
-TSPSolucion *TSPLocalSearch::obtenerSolucionMejorada(TSPSolucion *solucion){
-    
+TSPSolucion *TSPLocalSearch::obtenerSolucionMejorada(TSPSolucion *solucion)
+{    
     TSPSolucion *solucion_mejorada = new TSPSolucion(*solucion);
     
     mejorarSolucionMejorIntercambio(solucion_mejorada);

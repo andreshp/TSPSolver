@@ -109,7 +109,11 @@
             * @return Cadena con el nombre del problema.
             */
             inline string nombreProblema() const{
-                return this->nombre_archivo;
+                size_t pos = nombre_archivo.rfind('/');
+                if (pos == string::npos)
+                    return this->nombre_archivo;
+                else
+                    return this->nombre_archivo.substr(pos+1);
             }
 
             /**

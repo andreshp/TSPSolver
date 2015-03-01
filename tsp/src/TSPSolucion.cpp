@@ -418,6 +418,119 @@ void TSPSolucion::determinarVecinoGRASP(const double indice_validez){
     }
 }
 
+// Método que realiza una iteración de la mejora local Lin-Kernighan.
+// Se elimina inicialmente el lado entre ciudad y la anterior a ella. 
+bool TSPSolucion::iteracionLinKernighan(int ciudad)
+{
+    int coste_previo = coste;
+    vector <bool> vertices_libres(num_ciudades);
+    
+    for (int i = 0; i < num_ciudades; i++)
+        vertices_libres[i] = true;
+
+    int *camino = new int[num_ciudades], pos;
+    for (int i = 0; i < num_ciudades; i++)
+    {
+        if (orden_ciudades[i] == ciudad){
+            pos = i;
+            break;
+        }    
+    }
+    for (int i = 0; i < num_ciudades; i++)
+        camino[i] = orden_ciudades[(i+pos)%num_ciudades];
+    
+    mejorarCamino(camino, coste - problema->elementoMatrizDistancias(orden_ciudades[pos],orden_ciudades[(pos+num_ciudades-1)%num_ciudades]), 1,vertices_libres);
+
+    if (abs(coste_previo - coste) > 0.001)
+        return true;
+    else
+        return false;
+}
+
+void TSPSolucion::mejorarCamino(int *camino, int coste_camino, int iteracion, vector <bool> vertices_libres)
+{
+    int ganancia, nuevo_coste_camino, nuevo_coste_sol;
+    
+    if (iteracion < 4)
+    {
+        for (int i = 0; i < num_ciudades-1; i++)
+        {
+            if (vertices_libres[camino[i]])
+            {
+                ganancia = problema->elementoMatrizDistancias(camino[i],camino[i+1]) - problema->elementoMatrizDistancias(camino[num_ciudades-1],camino[i]);
+                if (ganancia > 0)
+                {
+                    nuevo_coste_camino = coste_camino - ganancia;
+                    nuevo_coste_sol = nuevo_coste_camino + problema->elementoMatrizDistancias(camino[i+1],camino[0]);
+                    
+                    if (nuevo_coste_sol < coste)
+                    {
+                        coste = nuevo_coste_sol;
+                        
+                        for (int j = 0; j <= i; j++)
+                            orden_ciudades[j] = camino[j];
+                        
+                        for (int j = i+1; j < num_ciudades; j++)
+                            orden_ciudades[j] = camino[num_ciudades+i-j];
+                        
+                        break;
+                    }
+                    else
+                    {
+                        int *nuevo_camino = new int [num_ciudades];
+                        for (int j = 0; j <= i; j++)
+                            nuevo_camino[j] = camino[j];
+                        
+                        for (int j = i+1; j < num_ciudades; j++)
+                            nuevo_camino[j] = camino[num_ciudades+i-j];
+                        
+                        vertices_libres[camino[i]] = false;
+                        mejorarCamino(nuevo_camino, nuevo_coste_camino, iteracion+1, vertices_libres);
+                        vertices_libres[camino[i]] = true;
+                    }
+                }
+            }
+        }
+        delete [] camino;
+    }
+    else{
+        int max_vertice = 0;
+        int max_ganancia = problema->elementoMatrizDistancias(camino[0],camino[1]) - problema->elementoMatrizDistancias(camino[0],camino[num_ciudades-1]);
+        for (int i = 1; i < num_ciudades-1; i++){
+            ganancia = problema->elementoMatrizDistancias(camino[i],camino[i+1]) - problema->elementoMatrizDistancias(camino[i],camino[num_ciudades-1]);
+            if (ganancia > max_ganancia){
+                max_vertice = i;
+                max_ganancia = ganancia;
+            }
+        }
+        if (max_ganancia > 0){
+            nuevo_coste_camino = coste_camino - max_ganancia;
+            nuevo_coste_sol = nuevo_coste_camino + problema->elementoMatrizDistancias(camino[max_vertice+1],camino[0]);
+            if (nuevo_coste_sol < coste){
+                coste = nuevo_coste_sol;
+                for (int j = 0; j <= max_vertice; j++){
+                    orden_ciudades[j] = camino[j];
+                }
+                for (int j = max_vertice+1; j < num_ciudades; j++){
+                    orden_ciudades[j] = camino[num_ciudades+max_vertice-j];
+                }
+            }
+            else{
+                int *nuevo_camino = new int [num_ciudades];
+                for (int j = 0; j <= max_vertice; j++){
+                    nuevo_camino[j] = camino[j];
+                }
+                for (int j = max_vertice+1; j < num_ciudades; j++){
+                    nuevo_camino[j] = camino[num_ciudades+max_vertice-j];
+                }
+                vertices_libres[camino[max_vertice]] = false;
+                mejorarCamino(nuevo_camino, nuevo_coste_camino, iteracion+1, vertices_libres);
+            }
+        }
+        delete [] camino;
+    }
+}
+
 // Método que realiza un número de iteraciones dado del algoritmo simulated annealing a cierta temperatura dada.
 void TSPSolucion::realizarIteracionesSA(const double temperatura, const int num_iteraciones, const int max_exitos){
     /* Algoritmo: 

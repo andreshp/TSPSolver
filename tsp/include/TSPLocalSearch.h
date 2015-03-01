@@ -14,18 +14,19 @@
                         /* DATOS MIEMBRO */
             
             /**
-            * @brief Puntero a un objeto de la clase TSPProblema.
-            * @brief Se inicializa en el constructor.
+            * @brief Cadena de caracteres con el nombre de la mejora local 2-OPT    .
+            * @brief Se inicializa en el constructor de la clase.
+            * Al crear una solución con TSPLocalSearch su dato miembro const string *mejora apuntará a nombre_mejora. 
             */
-            TSPProblema *problema;
+            const string OPT_2;
 
             /**
             * @brief Cadena de caracteres con el nombre de la mejora local.
             * @brief Se inicializa en el constructor de la clase.
-            * Al crear una solución con TSPLocalSearch su dato miembro const string *mejora apuntará a nombre_mejora. 
+            * Al crear una solución con TSPLocalSearch su dato miembro string *mejora apuntará a nombre_mejora. 
             */
-            const string nombre_mejora;
-        
+            const string lin_kernighan;
+            
         public:
 
                         /* MÉTODOS PÚBLICOS */    
@@ -34,7 +35,7 @@
             * @brief Inicializa nombre_mejora y problema.
             * @param nuevo_problema Puntero a un objeto de la clase TSPProblema.
             */
-            TSPLocalSearch(TSPProblema *nuevo_problema);
+            TSPLocalSearch();
 
             /**
             * @brief Método que mejora una solución dada.
@@ -49,6 +50,16 @@
             * @param solucion Puntero a un objeto de la clase TSPSolucion que se desea mejorar.
             */
             void mejorarSolucionPrimerIntercambio(TSPSolucion *solucion) const;
+
+
+            /**
+            * @brief Método que mejora una solución dada mediante la Local Search LinKernighan.
+            * 
+            * Utiliza el método iteracionLinKernighan de la clase TSPSolucion.
+            * @param solucion Puntero a un objeto de la clase TSPSolucion que se desea mejorar.
+            * @param num_ciudades Número de ciudades del problema en cuestión.
+            */
+            void LinKernighan(TSPSolucion *solucion, int num_ciudades);
 
             /**
             * @brief Método, que dada una solución, devuelve una mejora de la misma.

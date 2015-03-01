@@ -7,7 +7,7 @@
     # include <iostream>
     # include <stdlib.h>
     # include "TSPProblema.h"
-    
+    # include <vector>
     
     using namespace std ;
     
@@ -225,6 +225,18 @@
             */
             void determinarVecinoGRASP(const double indice_validez);
             
+            /**
+            * @brief Método realiza una iteración de la mejora local Lin-Kernighan.
+            * @brief De no encontrar un intercambio que mejore el coste actual, la solución permanece intacta.
+            * @return Bool que indica si se ha realizado un intercambio o no. 
+            */
+            bool iteracionLinKernighan(int ciudad);
+            
+            /**
+            * @brief Método recursivo que prueba un camino de la mejora local Lin-Kernighan.
+            */
+            void mejorarCamino(int *camino, int coste_camino, int iteracion, vector <bool> vertices_libres);
+
             /**
             * @brief Método que realiza un número de iteraciones dado del algoritmo simulated annealing a cierta temperatura dada.
             * @param temperatura Temperatura del proceso durante las iteraciones. A más temperatura, mayor probabilidad de aceptar una solución peor.

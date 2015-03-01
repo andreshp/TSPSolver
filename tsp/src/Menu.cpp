@@ -4,7 +4,7 @@
 
 //Constructor de la clase:
 Menu::Menu(TSPProblema *nuevo_problema)
-    :heuristica_insercion(nuevo_problema), heuristica_vecino(nuevo_problema), mejora_local(nuevo_problema), 
+    :heuristica_insercion(nuevo_problema), heuristica_vecino(nuevo_problema),
     heuristica_grasp(nuevo_problema, &mejora_local), heuristica_ils(nuevo_problema, &mejora_local), simulated_annealing(nuevo_problema), 
     generador_aleatorio(nuevo_problema), heuristica_genetico(nuevo_problema, &generador_aleatorio, &heuristica_grasp, &mejora_local),
     heuristica_hormiga(nuevo_problema), soluciones(nuevo_problema, &heuristica_grasp),
