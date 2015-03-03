@@ -64,7 +64,7 @@
             * @param punto Objeto de la clase TSPPunto.
             * @return Distancia entre los dos puntos.
             */
-            double distanciaHasta(const TSPPunto punto) const;
+            int distanciaHasta(const TSPPunto punto) const;
     };
 
 # endif

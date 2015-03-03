@@ -36,13 +36,26 @@
             * @brief Se inicializa el puntero, creándose los arrays, mediante el método privado reservarEspacio().
             * Se inicializan las componentes mediante el método privado leerDatosArchivo().
             */
-            double **matriz_distancias;
+            int **matriz_distancias;
             
             /**
             * @brief Dato miembro que contiene el nombre del archivo del cual se leerán los datos.
             * @brief Se inicializa en el constructor. (Se pasa como parámetro su valor).
             */
             string nombre_archivo;
+
+            /**
+            * @brief Dato miembro que contiene la distancia de la solución óptima al problema.
+            * @brief Se inicializa al leer los datos.
+            */
+            int distancia_optima;
+
+            /**
+             * @brief Nombre del problema en cuestión.
+             *
+             * Se obtiene al leer los datos.
+             */
+            string nombre_problema;
         
         
                                         /* MÉTODOS PRIVADOS */
@@ -92,7 +105,15 @@
             * @return num_ciudades
             */
             inline int numeroCiudades() const{
-                return this->num_ciudades;
+                return num_ciudades;
+            }
+
+            /**
+            * @brief Método público que devuelve la distancia óptima del problema.
+            * @return distancia_optima
+            */
+            inline int distanciaOptima() const{
+                return this->distancia_optima;
             }
         
             /**
@@ -100,7 +121,7 @@
             * @param (i,j) Índices del elemento de la matriz que se desea.
             * @return Elemento (i,j) de la matriz.
             */
-            inline double elementoMatrizDistancias(int i, int j) const{
+            inline int elementoMatrizDistancias(int i, int j) const{
                 return matriz_distancias[i][j];
             }
 
@@ -109,11 +130,7 @@
             * @return Cadena con el nombre del problema.
             */
             inline string nombreProblema() const{
-                size_t pos = nombre_archivo.rfind('/');
-                if (pos == string::npos)
-                    return this->nombre_archivo;
-                else
-                    return this->nombre_archivo.substr(pos+1);
+                return this->nombre_problema;
             }
 
             /**

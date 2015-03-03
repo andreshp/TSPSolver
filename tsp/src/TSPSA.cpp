@@ -36,8 +36,8 @@ void TSPSA::buscarSolucion(TSPSolucion *solucion, int iteraciones){
     int exitos, max_exitos = num_ciudades * 1.5;
     
     // Se inicializan las temperaturas:
-    double temp_inicial = (indice_validez/-log(probabilidad_inicial)) * mejor_solucion->distanciaTotal();
-    double temp_final = mejor_solucion->distanciaTotal() / 1000;
+    double temp_inicial = (indice_validez/-log(probabilidad_inicial)) * 1.0 * mejor_solucion->distanciaTotal();
+    double temp_final = mejor_solucion->distanciaTotal() / 1000.0;
     double temperatura = temp_inicial;
     
     // Se cacula el ratio de enfriamiento que se utilizará para actualizar la temperatura del sistema:

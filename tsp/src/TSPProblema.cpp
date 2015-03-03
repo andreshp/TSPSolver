@@ -17,15 +17,30 @@ void TSPProblema::leerDatosArchivo(){
         throw runtime_error("No existe el archivo " + nombre_archivo);
     }
 
-    // Lee la cabecera del archivo y el número de ciudades con las que se trabajará (inicializando num_ciudades):
+    // Se lee el nombre del problema:
     archivo >> cabecera;
+    archivo >> nombre_problema;
+
+    // Lee la cabecera del archivo y el número de ciudades con las que se trabajará (inicializando num_ciudades):
+    do{
+        archivo >> cabecera;
+    }while(cabecera != "DIMENSION:");
     archivo >> num_ciudades;
+    archivo >> cabecera;
+    archivo >> distancia_optima;
+    do{
+        archivo >> cabecera;
+    }while(cabecera != "1");
 
     // Reserva espacio en memoria para la matriz de distancias y las ciudades:
-    reservarEspacio(); 
+    reservarEspacio();
+
+    archivo >> x;
+    archivo >> y;
+    ciudades[0].setCoordenadas(x, y);
 
     // Lee las coordenadas de las ciudades:
-    for (int i = 0; i < num_ciudades; i++){
+    for (int i = 1; i < num_ciudades; i++){
         archivo >> idCiudad;
         archivo >> x;
         archivo >> y;
@@ -39,9 +54,9 @@ void TSPProblema::reservarEspacio(){
     ciudades = new TSPPunto [num_ciudades];
 
     // Se reserva el espacio para matriz_distancias:
-    matriz_distancias = new double *[num_ciudades];
+    matriz_distancias = new int *[num_ciudades];
     for (int i = 0; i < num_ciudades; i++){
-        matriz_distancias[i] = new double [num_ciudades];
+        matriz_distancias[i] = new int [num_ciudades];
     }
 }
 
@@ -97,7 +112,6 @@ TSPProblema::TSPProblema(const TSPProblema &otro){
 TSPPunto TSPProblema::ciudad(int indice) const{
     if(indice < num_ciudades && indice >= 0){
         return ciudades[indice];
-
     }
     else{
         throw logic_error("Las ciudades están enumeradas de 0 a " 

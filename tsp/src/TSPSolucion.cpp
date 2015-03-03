@@ -18,7 +18,7 @@ void TSPSolucion::insertarCiudadPrivado(int indice_ciudad, int posicion){
 }
 
 // Método que devuelve el coste de recorrer las ciudades si se insertara la ciudad indice_ciudad en la posición indicada:
-double TSPSolucion::nuevoCosteInsercion(int indice_ciudad, int posicion) const{    
+int TSPSolucion::nuevoCosteInsercion(int indice_ciudad, int posicion) const{    
     /* Algoritmo:
         - Se crea una variable distancia con el coste actual.
         - Se calculan las dos ciudades entre las cuales estará la ciudad a insertar. Estas son:
@@ -28,7 +28,7 @@ double TSPSolucion::nuevoCosteInsercion(int indice_ciudad, int posicion) const{
         - Se suma la distancia de cada una de las dos ciudades anteriores a la ciudad a insertar.
     */
 
-    double distancia = coste;
+    int distancia = coste;
     int pos_insercion1 = posicion, pos_insercion2;
 
     pos_insercion2 = (num_visitadas + posicion - 1) % num_visitadas;
@@ -41,7 +41,7 @@ double TSPSolucion::nuevoCosteInsercion(int indice_ciudad, int posicion) const{
 }
 
 // Método que calcula el coste de una posible nueva solución que sería el resultado de intercambiar dos ciudades de posición en orden_ciudades dada.
-double TSPSolucion::nuevoCosteIntercambio(int posicion1, int posicion2) const{
+int TSPSolucion::nuevoCosteIntercambio(int posicion1, int posicion2) const{
     /* Algoritmo:
         - Se crea una variable distancia con el coste actual.
         - Se calculan las dos ciudades vecinas a cada una de las 2 ciudades dadas, posicion_i + 1 y posicion_i - 1. 
@@ -50,7 +50,7 @@ double TSPSolucion::nuevoCosteIntercambio(int posicion1, int posicion2) const{
         - Se suma la distancia que hay entre cada ciudad dada y sus 2 nuevas vecinas a distancia.
     */
 
-    double distancia = coste;
+    int distancia = coste;
 
     // Posiciones de las ciudades contiguas a las dos dadas:
     int posicion1_dcha = (posicion1 + 1) % num_visitadas;
@@ -189,7 +189,7 @@ void TSPSolucion::determinarMejorInsercion(){
         
         // Declaración de variables:
         int ciudad_mejor_insercion, ciudad_actual, pos_actual, mejor_posicion = 0; 
-        double coste_actual; 
+        int coste_actual; 
         bool inicializado = false;
 
         // Inicialización:
@@ -200,7 +200,7 @@ void TSPSolucion::determinarMejorInsercion(){
             }
         }
 
-        double coste_mejor_insercion = nuevoCosteInsercion(ciudad_mejor_insercion, mejor_posicion);
+        int coste_mejor_insercion = nuevoCosteInsercion(ciudad_mejor_insercion, mejor_posicion);
 
         // Cálculo de la mejor insercción:
         for (ciudad_actual = ciudad_mejor_insercion; ciudad_actual < num_ciudades; ciudad_actual++){
@@ -239,7 +239,7 @@ bool TSPSolucion::determinarMejorIntercambio(){
     */
 
     // Declaración de variables:
-    double nuevo_coste, mejor_coste = coste;
+    int nuevo_coste, mejor_coste = coste;
     bool cambio = false;
     int posicion_mejor_coste_i, posicion_mejor_coste_j;
 
@@ -279,7 +279,7 @@ bool TSPSolucion::determinarPrimerMejorIntercambio(){
     */
 
     // Declaración de variables:
-    double nuevo_coste;
+    int nuevo_coste;
     bool cambio = false;
 
     // Si se encuentra algún intercambio que mejore la solución se realiza:
@@ -315,7 +315,7 @@ void TSPSolucion::determinarVecinoMasCercano(){
         
         // Declaración de variables:
         int ultima_ciudad = orden_ciudades[num_visitadas - 1];
-        double nueva_distancia;
+        int nueva_distancia;
         int vecino_mas_cercano = -1;
 
         // Inicialización de vecino_mas_cercano:
@@ -326,7 +326,7 @@ void TSPSolucion::determinarVecinoMasCercano(){
         }
 
         // Inicialización de menor_distancia:
-        double menor_distancia = problema->elementoMatrizDistancias(ultima_ciudad, vecino_mas_cercano);
+        int menor_distancia = problema->elementoMatrizDistancias(ultima_ciudad, vecino_mas_cercano);
         
         // Se comprueba cuál es el vecino_mas_cercano:
         for (int i = vecino_mas_cercano; i < num_ciudades; i++){
@@ -367,7 +367,7 @@ void TSPSolucion::determinarVecinoGRASP(const double indice_validez){
         
         // Declaración de variables:
         int ultima_ciudad = orden_ciudades[num_visitadas - 1];
-        double nueva_distancia, distancia_tope;
+        int nueva_distancia, distancia_tope;
         int *lista_mas_cercanos = new int [num_ciudades - num_visitadas];
         int vecino, j, elementos_lista = 0;
 
@@ -697,8 +697,7 @@ void TSPSolucion::insertarCiudad(int indice_ciudad, int posicion){
         coste = nuevoCosteInsercion(indice_ciudad, posicion);
         insertarCiudadPrivado(indice_ciudad, posicion);
     }
-    else if (num_visitadas == 0 && posicion == 0){
-        
+    else if (num_visitadas == 0 && posicion == 0){   
         orden_ciudades[posicion] = indice_ciudad;
         num_visitadas++;
         ciudades_visitadas[indice_ciudad] = true;

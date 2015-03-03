@@ -32,10 +32,11 @@ TSPPlot::TSPPlot(TSPProblema *problema){
 	this->problema = problema; // Asignación del problema
 	// El fichero con el que se dibujará cambia la extensión .tsp por .sol
 	string nombre_archivo = problema->nombreProblema();
-	nombre_archivo.replace(nombre_archivo.size()-3,3, "sol");
+	nombre_archivo.replace(nombre_archivo.size(),4, ".sol");
 	// Se añade la dirección del directorio ./sol
 	nombre_archivo = "./sol/" + nombre_archivo;
 	this->nombre_archivo = nombre_archivo; // Asignación del nombre del archivo.
+	cout << nombre_archivo << endl;
 }
 
 // Método encargado de llamar al programa que dibuja la solución.

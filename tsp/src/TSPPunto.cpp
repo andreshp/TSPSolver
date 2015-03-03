@@ -20,10 +20,10 @@ void TSPPunto::setCoordenadas(double x, double y){
 
 
 // Método público que calcula la distancia del punto a otro punto dado:
-double TSPPunto::distanciaHasta(const TSPPunto punto) const{
+int TSPPunto::distanciaHasta(const TSPPunto punto) const{
     
     double x2 = punto.getX();
     double y2 = punto.getY();
 
-    return sqrt((x - x2) * (x - x2) + (y - y2) * (y - y2));
+    return nearbyint(sqrt((x - x2) * (x - x2) + (y - y2) * (y - y2)));
 }

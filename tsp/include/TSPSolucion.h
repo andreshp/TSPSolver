@@ -53,7 +53,7 @@
             * @brief Variable que indica el coste total en distancias de realizar el recorrido propuesto como solución.
             * @brief Se inicializa a 0 en el constructor. Aumenta mientras se construye la solución hasta representar el coste final.
             */
-            double coste;
+            int coste;
       
             /** 
             * @brief Puntero a una string constante con el nombre del algoritmo que se ha utilizado para calcular la solución.
@@ -103,7 +103,7 @@
             * @param posicion Lugar de orden_ciudades en el que se situará la ciudad anterior.
             * @return Coste de la posible nueva solución.
             */
-            double nuevoCosteInsercion(int indice_ciudad, int posicion) const;
+            int nuevoCosteInsercion(int indice_ciudad, int posicion) const;
     
             /**
             * @brief Método que calcula el coste de una posible nueva solución que resulta de intercambiar dos ciudades de posición.
@@ -111,7 +111,7 @@
             * @param posicion2 Posición en orden_ciudades de la segunda ciudad a intercambiar.
             * @return Coste de la posible nueva solución.
             */
-            double nuevoCosteIntercambio(int posicion1, int posicion2) const;
+            int nuevoCosteIntercambio(int posicion1, int posicion2) const;
 
             /**
             * @brief Método privado que reserva el espacio de varios datos miembro.
@@ -183,7 +183,7 @@
             * @brief Método que devuelve la distancia total de trayecto.
             * @return coste
             */
-            inline double distanciaTotal() const{
+            inline int distanciaTotal() const{
                   return coste;
             }        
     
