@@ -4,7 +4,7 @@ A TSP user friendly Solver.
 
 ## Project Info
 
-![](https://travis-ci.org/andreshp/<TSPSolver class="svg"></TSPSolver>)
+![](https://travis-ci.org/andreshp/TSPSolver.svg?branch=master)
 
 - **Code Language:** c++
 - **Comments Language:** Spanish
