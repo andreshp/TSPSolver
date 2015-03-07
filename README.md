@@ -5,6 +5,7 @@ A TSP user friendly Solver.
 ## Project Info
 
 ![](https://travis-ci.org/andreshp/TSPSolver.svg?branch=master)
+[![Coverage Status](https://coveralls.io/repos/andreshp/TSPSolver/badge.svg)](https://coveralls.io/r/andreshp/TSPSolver)
 
 - **Code Language:** c++
 - **Comments Language:** Spanish
