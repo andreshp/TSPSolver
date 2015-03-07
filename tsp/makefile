@@ -36,10 +36,10 @@ all: directories $(BIN)/$(EXECUTABLE)
 
 # Build the directories needed
 directories:
-	mkdir -p $BIN
-	mkdir -p $OBJ
-	mkdir -p $LIB
-	mkdir -p $DOC
+	mkdir -p $(BIN)
+	mkdir -p $(OBJ)
+	mkdir -p $(LIB)
+	mkdir -p $(DOC)
 
 
 # Creación del archivo ejecutable
