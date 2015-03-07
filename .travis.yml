@@ -1,5 +1,3 @@
 language: cpp
 
-script: make
-
-cd tsp && make
+script: cd tsp && make
