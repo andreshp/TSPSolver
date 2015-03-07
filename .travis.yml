@@ -1,3 +1,6 @@
 language: cpp
 
 script: cd tsp && make
+
+after_success:
+  - coveralls
