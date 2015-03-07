@@ -32,7 +32,15 @@ UTILITIES_INCLUDES=$(INCLUDE)/TSPPunto.h $(INCLUDE)/TSPProblema.h $(INCLUDE)/TSP
 
 	# REGLAS #
  
-all: $(BIN)/$(EXECUTABLE)
+all: directories $(BIN)/$(EXECUTABLE)
+
+# Build the directories needed
+directories:
+	mkdir -p $BIN
+	mkdir -p $OBJ
+	mkdir -p $LIB
+	mkdir -p $DOC
+
 
 # Creación del archivo ejecutable
 $(BIN)/$(EXECUTABLE): $(OBJ)/main.o $(LIB)/libalgorithms.a $(LIB)/libutilities.a
