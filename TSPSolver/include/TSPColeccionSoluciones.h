@@ -7,6 +7,7 @@
     # include "TSPLocalSearch.h"
     # include <stdlib.h>
     # include <vector>
+    # include <algorithm>
       
     /**
     * @brief Clase que administra un conjunto de soluciones de un problema de TSP dado.
@@ -175,7 +176,15 @@
             * @param probabilidad_mutacion Probabilidad de que se realice una mutación en la nueva solución.
             * @param num_candidatos Número de soluciones elegidas inicialmente para escoger la mejor entre ellas.
             */
-            void evolucionar(const double & probabilidad_mutacion, const int & num_candidatos);
+            void evolucionar(const double & probabilidad_mutacion, const double & probabilidad_cruce, const int & num_candidatos);
+
+            /**
+            * @brief Método que realiza una iterración del algoritmo genético snug, evolucionando la población en una generación.
+            * @param probabilidad_mutacion Probabilidad de que se realice una mutación en la nueva solución.
+            * @param num_candidatos Número de soluciones elegidas inicialmente para escoger la mejor entre ellas.
+            */
+            void evolucionarSnug(const double & probabilidad_mutacion, const int & num_candidatos);
+
     };
 
 #endif

@@ -42,7 +42,7 @@ int main(int argc, char **argv){
         // Mensaje de despedida:
         menu.presentacion(23,79,'*',"Hasta luego, le estaremos esperando");
         cout << "\n          Autores: Juan Luis Suárez Díaz y Andrés Herrera Poyatos.\n";
-        cout << "                    Copyrights y Derechos Reservados.\n\n";
+        cout << "                 Este software se encuentra bajo licencia MIT.\n\n";
         //delete &menu;
         //delete &problema;
     

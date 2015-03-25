@@ -75,7 +75,7 @@ void Menu::showOptions() const{
              << "\n4. GRASP (Greedy Randomized Adaptative Search Process)."
              << "\n5. ILS (Iterative Local Search)"
              << "\n6. SA (Simulated Annealing)"
-             << "\n7. CGA (Compact Genetic Algorithm, Algoritmo Genético con una modificación nuestra)."
+             << "\n7. GA (Genetic Algorithm y Snug Genetic Algorithm)."
              << "\n8. ACOTSP (Ants Colony Optimization, Optimización de la Colonia de Hormigas simplificado)."
              << "\n9. Mis soluciones."
              << "\n10. Información."
@@ -124,7 +124,7 @@ void Menu::showOptions() const{
              << "\n4. GRASP (Greedy Randomized Adaptative Search Process)."
              << "\n5. ILS (Iterative Local Search)."
              << "\n6. SA (Simulated Annealing)."
-             << "\n7. CGA (Compact Genetic Algorithm)."
+             << "\n7. GA (Genetic Algorithm y Snug Genetic Algorithm)."
              << "\n8. ACOTSP (Ants Colony Optimization)."
              << "\n0. Volver al inicio."
              << "\n-1. Salir del programa."
@@ -321,14 +321,24 @@ void Menu::realizarOpcionMenuPrincipal(int opcion){
             break;
         }
         case 7:
-        {   // :
+        {   // Ejecución del GA:
+            cout << "\nIntroduzca 0 para ejecutar el GA tradicional.";
+            cout << "Introduzca 1 para ejecutar Snug GA: ";
+            cin >> cadena_entrada;
+            int algoritmo = compruebaOpcion(cadena_entrada);
             cout << "\nIntroduzca el número de generaciones: ";
             cin >> cadena_entrada;
             int generaciones = compruebaOpcion(cadena_entrada);
             
             crono.start();
-    
-            solucion_actual = heuristica_genetico.buscarSolucion(generaciones);
+            
+            if (algoritmo == 0){
+                solucion_actual = heuristica_genetico.buscarSolucion(generaciones);                
+            }    
+            else{
+                solucion_actual = heuristica_genetico.buscarSolucionSnug(generaciones);
+            }
+
             soluciones.insertarSolucion(solucion_actual);
             
             cout << "\nSolución al problema:\n";
@@ -398,12 +408,11 @@ void Menu::realizarOpcionMenuPrincipal(int opcion){
             cout << "    de los parámetros que rigen su funcionamiento. Se han establecido de forma que funcione con problemas de \n";
             cout << "    cualquier tamaño. Funciona mucho mejor que los anteriores cuando el problema tiene 100 o más ciudades.\n";
             cout << "    Se recomiendan entre 40000 y 100000 iteraciones.\n\n";
-            cout << "  - CGA: Algoritmo Genético Compacto. Genera una población de individuos y los evoluciona generacionalmente\n";
-            cout << "    creando hijos con el OX1 crossover y aplicando una mutación aleatoria. Lo hemos denominado compacto pues\n";
-            cout << "    trabaja solo con 8 individuos como población, funcionando mucho más rápido. Esto es factible gracias a que\n";
-            cout << "    eliminamos las soluciones repetidas para evitar la convergencia a un óptimo local. Posteriormente, se añaden\n";
-            cout << "    ciudades con el algoritmo GRASP hasta completar el número de individuos. Es capaz de resolver de forma óptima\n";
-            cout << "    berlin52.tsp entre 0.1 y 0.5 segundos (entre 1000 y 10000 generaciones).\n\n";
+            cout << "  - GA: Algoritmo Genético. Genera una población de individuos y los evoluciona generacionalmente\n";
+            cout << "    creando hijos con el OX1 crossover y aplicando una mutación aleatoria. Se proporciona además un modelo desarrollado\n";
+            cout << "    por Andrés Herrera y Francisco Herrera que realiza una diversificación voraz de la población junto a un operador de\n";
+            cout << "    cruce aleatorio y competición entre padres e hijos de Differential Evolution. La diversificación voraz se realiza\n";
+            cout << "    sustituyendo las soluciones repetidas en la población por nuevas soluciones obtenidas mediante un algoritmo voraz aleatorizado.\n";
             cout << "  - ACOTSP: Optimización de la Colonia de Hormigas. Las hormigas se guían por feromonas, con unas ciertas probabilidades.\n";
             cout << "    Las feromonas se van evaporando mientras las hormigas siguen haciendo recorridos y soltando nuevas feromonas. De esta\n";
             cout << "    forma, van ganando importancia las feromonas de las hormigas que hacen los caminos más cortos mientras las demás van\n";
@@ -416,7 +425,7 @@ void Menu::realizarOpcionMenuPrincipal(int opcion){
             cout << "solución mediante un algoritmo o desde 'Mis Soluciones'.\n\n";
             cout << "Se utiliza GNUPlot para dibujar las soluciones. Instalar mediante la orden 'sudo apt-get install gnuplot rlwrap'.\n\n";
             cout << "                          Autores: Juan Luis Suárez Díaz  y Andrés Herrera Poyatos.\n";
-            cout << "                                     Copyrights y Derechos Reservados.\n\n";
+            cout << "                                     Este software se encuentra bajo licencia MIT.\n\n";
                          
             cout << endl; 
             break;

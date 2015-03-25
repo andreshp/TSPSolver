@@ -172,6 +172,12 @@
                   return (this->coste > otra_solucion.coste);
             }
 
+            /**
+            * @brief Sobrecarga del operador ==.
+            * @brief Devuelve true si this->solucion es igual a otra solucion dada.
+            */
+            bool operator==(const TSPSolucion &otra_solucion) const;
+
             /**   
             * @brief Método que devuelve el índice de la ciudad que es visitada en la posicion dada.
             * @param posicion Entero que indica la posicion-ésima ciudad visitada.

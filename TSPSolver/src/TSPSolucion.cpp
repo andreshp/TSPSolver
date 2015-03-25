@@ -738,3 +738,32 @@ void TSPSolucion::imprimirSolucion() const{
     
     cout << endl;
 }
+
+// Operador ==:
+bool TSPSolucion::operator==(const TSPSolucion &otra_solucion) const{
+    if (this->coste != otra_solucion.coste){
+        return false;
+    }
+    else{
+        int i = 0;
+        bool son_iguales = true;
+        for (; orden_ciudades[i] != otra_solucion.orden_ciudades[0]; i++);
+
+        for (int j = 1; j < num_ciudades; j++){
+            if (orden_ciudades[(i+j)%num_ciudades] != otra_solucion.orden_ciudades[j]){
+                son_iguales = false;
+                break;
+            }
+        }
+        if (! son_iguales){
+            son_iguales = true;
+            for (int j = num_ciudades-1; j > 0; j--){
+                if (orden_ciudades[(i+j)%num_ciudades] != otra_solucion.orden_ciudades[num_ciudades-j]){
+                    son_iguales = false;
+                    break;
+                }
+            }
+        }
+        return son_iguales;
+    }
+}

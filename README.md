@@ -6,11 +6,11 @@ A TSP user friendly Solver.
 
 ![](https://travis-ci.org/andreshp/TSPSolver.svg?branch=master)
 [![Code Health](https://landscape.io/github/andreshp/TSPSolver/master/landscape.svg?style=flat)](https://landscape.io/github/andreshp/TSPSolver/master)
-![](https://img.shields.io/badge/license-GNU-blue.svg)
+[![](https://img.shields.io/badge/license-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 
 - **Code Language:** c++
 - **Comments Language:** Spanish
-- **License:** GNU GENERAL PUBLIC LICENSE
+- **License:** MIT
 
 ## Examples
 

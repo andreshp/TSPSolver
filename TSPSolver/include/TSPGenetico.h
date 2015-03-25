@@ -95,6 +95,13 @@
             * @return Puntero a la solución generada.
             */
             TSPSolucion *buscarSolucion(int num_generaciones);
+
+            /**
+            * @brief Método que crea una solución mediante el algoritmo Genetico.
+            * @brief Utiliza el método determinarVecinoGRASP de TSPSolucion.
+            * @return Puntero a la solución generada.
+            */
+            TSPSolucion *buscarSolucionSnug(int num_generaciones);
             
             /**
             * @brief Método que cambia la probabilidad de reproducción utilizada en el algoritmo genético.

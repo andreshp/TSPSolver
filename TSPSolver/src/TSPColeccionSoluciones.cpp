@@ -217,7 +217,7 @@ int TSPColeccionSoluciones::buscarPeor() const{
 }
 
 // Método que realiza una iterración del algoritmo genético, evolucionando la población en una generación:
-void TSPColeccionSoluciones::evolucionar(const double & probabilidad_mutacion, const int & num_candidatos){
+void TSPColeccionSoluciones::evolucionar(const double & probabilidad_mutacion, const double & probabilidad_cruce, const int & num_candidatos){
     
     /* Algoritmo:
             - Genera una nueva_generación de igual número de elementos de la anterior.
@@ -235,21 +235,37 @@ void TSPColeccionSoluciones::evolucionar(const double & probabilidad_mutacion, c
 
     // Se crea la nueva generación:
     int posicion_peor_solucion, posicion_mejor_solucion;
+
     while (nueva_generacion.soluciones_almacenadas < soluciones_almacenadas){
-        padre1 = soluciones[0];
-        padre2 = soluciones[1 + rand() % (soluciones_almacenadas-1)];
-        
-        hijo = new TSPSolucion(problema, 0);
-        hijo->generarHijo(padre1, padre2);
-        nueva_generacion.pushSolucion(hijo);
-        if (rand() / (double) RAND_MAX <= probabilidad_mutacion){
-            hijo->mutacionInsercion();
+        padre1 = seleccionPorTorneo(num_candidatos);
+        padre2 = seleccionPorTorneo(num_candidatos);
+
+        if (rand() / (double) RAND_MAX <= probabilidad_cruce){
+            hijo = new TSPSolucion(problema, 0);
+            hijo->generarHijo(padre1, padre2);
+            if (rand() / (double) RAND_MAX <= probabilidad_mutacion){
+                hijo->mutacionIntercambio();
+            }
+            nueva_generacion.pushSolucion(hijo);
+            
+            hijo = new TSPSolucion(problema, 0);
+            hijo->generarHijo(padre2, padre1);
+            if (rand() / (double) RAND_MAX <= probabilidad_mutacion){
+                hijo->mutacionIntercambio();
+            }
+            nueva_generacion.pushSolucion(hijo);
         }
-        hijo = new TSPSolucion(problema, 0);
-        hijo->generarHijo(padre2, padre1);
-        nueva_generacion.pushSolucion(hijo);
-        if (rand() / (double) RAND_MAX <= probabilidad_mutacion){
-            hijo->mutacionInsercion();
+        else{
+            hijo = new TSPSolucion(*padre1);
+            if (rand() / (double) RAND_MAX <= probabilidad_mutacion){
+                hijo->mutacionIntercambio();
+            }
+            nueva_generacion.pushSolucion(hijo);
+            hijo = new TSPSolucion(*padre2);
+            if (rand() / (double) RAND_MAX <= probabilidad_mutacion){
+                hijo->mutacionIntercambio();
+            }
+            nueva_generacion.pushSolucion(hijo);   
         }
     }
 
@@ -259,18 +275,47 @@ void TSPColeccionSoluciones::evolucionar(const double & probabilidad_mutacion, c
     delete nueva_generacion.soluciones[posicion_peor_solucion];
     nueva_generacion.soluciones[posicion_peor_solucion] = new TSPSolucion(*(soluciones[posicion_mejor_solucion]));
 
-    // ELiminamos la antigua generación:
+    // Eliminamos la antigua generación:
     liberarEspacio();
 
     // Asignamos la nueva generación y ponemos su numero de individuos a 0 (para que no se eliminen las soluciones al finalizar)
     this->soluciones = nueva_generacion.soluciones;
     nueva_generacion.soluciones = 0;
     nueva_generacion.soluciones_almacenadas = 0;
+}
 
-    // Ordenamos y eliminamos los repetidos añadiendo nuevos:
+// Método que realiza una iterración del algoritmo genético, evolucionando la población en una generación:
+void TSPColeccionSoluciones::evolucionarSnug(const double & probabilidad_mutacion, const int & num_candidatos){
+
+    TSPColeccionSoluciones nueva_generacion(problema, heuristica_grasp, soluciones_almacenadas); 
+    
+    // Se reordenan aleatoriamente las soluciones de la generación actual; 
+    random_shuffle(soluciones, soluciones+soluciones_almacenadas);
+
+    // Los vecinos se cruzan para generar hijos: Operador de Seleccion creado por mi
+    for (int i = 0; i < soluciones_almacenadas; i++){
+        nueva_generacion.soluciones[i] = new TSPSolucion(problema, 0);
+        nueva_generacion.soluciones[i]->generarHijo(soluciones[i], soluciones[(i+1)%soluciones_almacenadas]);
+    }
+
+    // Se comparan padres con hijos:
+    for (int i = 0; i < soluciones_almacenadas; i++){
+        if (*soluciones[i] < *nueva_generacion.soluciones[i]){
+            delete nueva_generacion.soluciones[i];
+        }
+        else{
+            delete soluciones[i];
+            soluciones[i] = nueva_generacion.soluciones[i];
+        }
+    }
+
+    // Ponemos el número de individuos de nueva_generación a 0 (para que no se eliminen las soluciones al finalizar)
+    nueva_generacion.soluciones_almacenadas = 0;
+
+    // Diversificación de la población
     ordena();
     for (int i = soluciones_almacenadas-1; i > 0; i--){
-        if (abs(soluciones[i]->distanciaTotal() - soluciones[i-1]->distanciaTotal()) < 0.01){
+        if (*soluciones[i] == *soluciones[i-1]){
             delete soluciones[i];
             soluciones[i] = heuristica_grasp->buscarSolucion();
         }

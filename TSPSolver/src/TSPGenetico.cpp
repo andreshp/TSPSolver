@@ -9,6 +9,31 @@ TSPGenetico::TSPGenetico(TSPProblema *nuevo_problema, TSPRandom *generador_aleat
 
 // Método que aplicando Genetico devuelve un puntero a una nueva solución:
 TSPSolucion *TSPGenetico::buscarSolucion(int num_generaciones){
+
+    // Se crea la población:
+    poblacion = new TSPColeccionSoluciones(problema, heuristica_grasp, numero_individuos);
+    TSPSolucion *nueva_solucion;
+    for (int i = 0; i < numero_individuos; i++){
+        nueva_solucion = generador_aleatorio->solucionAleatoria();
+        poblacion->pushSolucion(nueva_solucion);
+    }
+
+    // Se evoluciona la población:
+    for (int i = 0; i < num_generaciones; i++){
+        poblacion->evolucionar(probabilidad_mutacion, 0.7, num_candidatos);
+    }
+
+    TSPSolucion * mejor_individuo = new TSPSolucion(*(poblacion->solucionPosicion(1+poblacion->buscarMejor())));
+
+    mejor_individuo->setAlgoritmo(&nombre_algoritmo);
+
+    delete poblacion;
+
+    return mejor_individuo;
+}
+
+// Método que aplicando Genetico devuelve un puntero a una nueva solución:
+TSPSolucion *TSPGenetico::buscarSolucionSnug(int num_generaciones){
     
     /* Algoritmo: 
             - Se crea una población de número de indviduos dado donde la mitad son generados por GRASP y los demás son aleatorios.
@@ -23,51 +48,19 @@ TSPSolucion *TSPGenetico::buscarSolucion(int num_generaciones){
     // Se crea la población:
     poblacion = new TSPColeccionSoluciones(problema, heuristica_grasp, numero_individuos);
     TSPSolucion *nueva_solucion;
-    for (int i = 0; i < numero_individuos/2; i++){
+    for (int i = 0; i < numero_individuos; i++){
         nueva_solucion = generador_aleatorio->solucionAleatoria();
         poblacion->pushSolucion(nueva_solucion);
-        nueva_solucion = heuristica_grasp->buscarSolucion();
-        poblacion->pushSolucion(nueva_solucion);
     }
-
-    // Se copia el mejor:
-    TSPSolucion *mejor_individuo = new TSPSolucion(*(poblacion->solucionPosicion(1+poblacion->buscarMejor())));
 
     // Se evoluciona la población:
-    int a = num_generaciones / 1000;
-    int b = num_generaciones % 1000;
-    for (int i = 0; i < a; i++){
-        for (int j = 0; j < 1000; j++){
-            poblacion->evolucionar(probabilidad_mutacion, num_candidatos);
-        }
-        // Se toma el mejor, se mejora y se compara:
-        nueva_solucion = new TSPSolucion(*(poblacion->solucionPosicion(1)));
-        mejora_local->mejorarSolucionMejorIntercambio(nueva_solucion);
-        if (*nueva_solucion < *mejor_individuo){
-            delete mejor_individuo;
-            mejor_individuo = nueva_solucion;
-        }
-        else{
-            delete nueva_solucion;
-        }
+    for (int i = 0; i < num_generaciones; i++){
+        poblacion->evolucionarSnug(probabilidad_mutacion, num_candidatos);
     }
-    
-    // Se realizan las últimas b iteraciones:
-    for (int i = 0; i < b; i++){
-        poblacion->evolucionar(probabilidad_mutacion, num_candidatos);
-    }
-    nueva_solucion = new TSPSolucion(*(poblacion->solucionPosicion(1)));
-    mejora_local->mejorarSolucionMejorIntercambio(nueva_solucion);
-    if (*nueva_solucion < *mejor_individuo){
-        delete mejor_individuo;
-        mejor_individuo = nueva_solucion;
-    }
-    else{
-        delete nueva_solucion;
-    }
+    TSPSolucion * mejor_individuo = new TSPSolucion(*(poblacion->solucionPosicion(1+poblacion->buscarMejor())));
     
     mejor_individuo->setAlgoritmo(&nombre_algoritmo);
-    
+
     delete poblacion;
 
     return mejor_individuo;
