@@ -30,9 +30,6 @@ TSPSolucion *TSPGRASP::buscarSolucion() const{
         nueva_solucion->determinarVecinoGRASP(indice_validez);
     }
 
-    // Mejora local de la solución:
-    //mejora_local->mejorarSolucionMejorIntercambio(nueva_solucion);
-    
     return nueva_solucion;    
 }
 
@@ -42,7 +39,8 @@ TSPSolucion *TSPGRASP::buscarSolucionLocalSearch() const{
     TSPSolucion *nueva_solucion = buscarSolucion();
     
     // Mejora local de la solución:
-    mejora_local->mejorarSolucionMejorIntercambio(nueva_solucion);
+    //mejora_local->mejorarSolucionMejorIntercambio(nueva_solucion);
+    mejora_local->LinKernighan(nueva_solucion, problema->numeroCiudades());
     
     return nueva_solucion;    
 }

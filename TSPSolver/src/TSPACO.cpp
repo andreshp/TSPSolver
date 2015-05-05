@@ -349,7 +349,12 @@ void TSPACO::resolver(int iteraciones){
 			//Se obtiene la solución y se mejora si así se ha decidido
 			TSPSolucion *camino_hormiga(colonia_m[i].recorridoHormiga());
 			if(mejorar <= porcentaje_mejoras){
-				mejora_local.mejorarSolucionMejorIntercambio(camino_hormiga);
+				if (it < 10){
+					mejora_local.mejorarSolucionMejorIntercambio(camino_hormiga);
+				}
+				else{
+					mejora_local.LinKernighan(camino_hormiga,num_ciudades);
+				}
 			}
 
 			//Las hembras recorren la solución obtenida desprendiendo feromonas.
