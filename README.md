@@ -18,6 +18,8 @@ TSPSolver allows to plot the solutions found with the algorithms. Here we presen
 
 ### Optimal Solution
 ![](https://github.com/andreshp/TSPSolver/blob/master/Images/eil101-SolucionOptima-629.png)
+### Snug GA
+
 ### Simulating Annealing
 ![](https://github.com/andreshp/TSPSolver/blob/master/Images/eil101-SA-665.68-1.3seg-10000iter.png)
 ### GRASP

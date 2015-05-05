@@ -16,7 +16,7 @@ MapaFeromonas::MapaFeromonas(TSPProblema *problema, double param_inicial, double
 		probabilidades[i] = new double[num_ciudades];
 		for(int j = 0; j < num_ciudades; j++){
 			feromonas[i][j] = param_inicial;
-			probabilidades[i][j] = prob_feromonas_inicio * pow(1.0/problema->elementoMatrizDistancias(i,j),influencia_movimiento);
+			probabilidades[i][j] = i != j? prob_feromonas_inicio * pow(1.0/problema->elementoMatrizDistancias(i,j),influencia_movimiento) : 0;
 		}
 	}
 
@@ -202,7 +202,6 @@ void Hormiga::avanza(int ciudad){
 					feromonasASoltar(recorrido[total_recorrido-1],recorrido[0]));
 		}
 	}
-	
 }
 
 //Avanza a la siguiente ciudad siguiendo las feromonas.
@@ -210,7 +209,7 @@ void Hormiga::avanzaNatural(){
 	avanza(determinarSiguienteCiudad());
 }
 
-//Reinicia un recorrido comenzando por ka ciudad dada como parámetro.
+//Reinicia un recorrido comenzando por la ciudad dada como parámetro.
 void Hormiga::recomenzar(int ciudad){
 	delete [] recorrido;
 	recorrido = new int[num_ciudades];
@@ -288,7 +287,7 @@ TSPACO::TSPACO(TSPProblema *problema)
 //Reserva el espacio para realizar el algoritmo con cierto número de hormigas.
 void TSPACO::reservarEspacio(int num_hormigas){
 	int num_ciudades = problema->numeroCiudades();
-	feromonas = new MapaFeromonas(problema,1/problema->elementoMatrizDistancias(0,1), param_evaporacion,influencia_feromonas,influencia_movimiento);
+	feromonas = new MapaFeromonas(problema,1.0/problema->elementoMatrizDistancias(0,1), param_evaporacion,influencia_feromonas,influencia_movimiento);
 	colonia_m = new Hormiga[num_hormigas];
 	colonia_h = new Hormiga[num_hormigas];
 	for(int i = 0; i < num_hormigas; i++){
