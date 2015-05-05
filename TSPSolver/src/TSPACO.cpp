@@ -328,6 +328,11 @@ void TSPACO::resolver(int iteraciones){
 			
 	int it = 0;	//Variable que cuenta las iteraciones.
 
+	Cronometro crono;	            //For trace.
+	crono.start(); 		            //For trace.
+	double best = 0, best_it = 0;   //For trace.
+
+	cout << "iter\ttime\tbest\tbest_it" << endl;
 	do{
 		//Se decide si habrá mejora.
 		mejorar = rand()%100;
@@ -364,13 +369,16 @@ void TSPACO::resolver(int iteraciones){
 			if(solucion == NULL || *camino_hormiga < *solucion){
 				delete solucion;
 				solucion = camino_hormiga;
+				best = best_it = camino_hormiga->distanciaTotal();
 			}
 			else{
+				best_it = camino_hormiga->distanciaTotal();
 				delete camino_hormiga;
 			}
 		}
 
 		it++;
+		cout << it << "\t" << crono.get_time() << "\t" << best << "\t" << best_it << endl;
 
 	}while(it <= iteraciones);
 

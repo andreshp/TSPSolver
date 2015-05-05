@@ -9,6 +9,8 @@
 #include <time.h>
 #include <math.h>
 
+#include "Cronometro.h" //For trace.
+
 
 using namespace std;
 
