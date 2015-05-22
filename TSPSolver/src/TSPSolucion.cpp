@@ -767,3 +767,21 @@ bool TSPSolucion::operator==(const TSPSolucion &otra_solucion) const{
         return son_iguales;
     }
 }
+
+void TSPSolucion::pushCiudad(int ciudad){
+    if(num_visitadas < num_ciudades){
+        orden_ciudades[num_visitadas] = ciudad;
+        coste += problema->elementoMatrizDistancias(orden_ciudades[num_visitadas],orden_ciudades[num_visitadas+1]);
+        num_visitadas++;
+        if(num_visitadas == num_ciudades)
+            coste += problema->elementoMatrizDistancias(orden_ciudades[num_visitadas-1],orden_ciudades[0]);
+    }
+}
+
+int TSPSolucion::popCiudad(){
+    if(num_visitadas == num_ciudades)
+        coste -= problema->elementoMatrizDistancias(orden_ciudades[num_visitadas-1],orden_ciudades[0]);
+    num_visitadas--;
+    coste -= problema->elementoMatrizDistancias(orden_ciudades[num_visitadas-1],orden_ciudades[num_visitadas]);
+    return orden_ciudades[num_visitadas];
+}
