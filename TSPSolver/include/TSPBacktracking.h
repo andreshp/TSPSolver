@@ -17,7 +17,7 @@ private:
     TSPSolucion *solucion;
     const string nombre_algoritmo;
 
-    pair <long long, long long> resolver(set<int> & candidatos, TSPSolucion *sol_backtracking, int mejor_sol);
+    pair <long long, long long> resolver(set<int> & candidatos, TSPSolucion *sol_backtracking, int & mejor_sol);
 
 public:
     TSPBacktracking(TSPProblema *problema);
@@ -27,8 +27,8 @@ public:
         return solucion;
     }
 
-    ~TSPBacktracking(){
-        if(solucion != NULL) delete solucion;
-    }
+    //~TSPBacktracking(){
+    //    if(solucion != NULL) delete solucion;
+    //}
 };
 #endif

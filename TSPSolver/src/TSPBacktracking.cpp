@@ -32,16 +32,23 @@ pair <long long, long long> TSPBacktracking::resolver(){
     return rec;
 }
 
-pair <long long, long long> TSPBacktracking::resolver(set<int> & candidatos, TSPSolucion *sol_backtracking, int mejor_sol){
+pair <long long, long long> TSPBacktracking::resolver(set<int> & candidatos, TSPSolucion *sol_backtracking, int & mejor_sol){
     pair <long, long> rec(0,0);
     //When we are in a leaf
     if(candidatos.empty()){
         rec.second++;
+        //cout << "[ES SOLUCION]";
+        //cout << sol_backtracking->distanciaTotal() << endl << mejor_sol << endl;
         if(sol_backtracking->distanciaTotal() < mejor_sol){
+            //cout << "EStOY ACTUALIZANDO" << endl;
             mejor_sol = sol_backtracking->distanciaTotal();
             if(solucion != NULL) delete solucion;
             solucion = new TSPSolucion(*sol_backtracking);
-            rec.first++;
+
+
+            //cout << "ACTUALIZADA SOLUCION" << endl;
+            //solucion->imprimirSolucion();
+            //cout << endl << solucion->distanciaTotal() << endl << endl;
         }
     }
     //Else we visit sons if needed
@@ -52,6 +59,12 @@ pair <long long, long long> TSPBacktracking::resolver(set<int> & candidatos, TSP
 
         rec.first++;
         
+        //for(int p = 0; p < sol_backtracking->getNumVisitadas(); p++){
+        //    cout << sol_backtracking->ciudadVisitada(p) << " ";
+        //}
+        //cout << sol_backtracking->distanciaTotal() << " " << mejor_sol << endl;
+
+
         if(sol_backtracking->distanciaTotal() < mejor_sol){
             pair <long,long> rrec = resolver(candidatos,sol_backtracking, mejor_sol);
             rec.first += rrec.first; rec.second += rrec.second;
