@@ -1,16 +1,43 @@
 #include "TSPBranchAndBound.h"
+#include <limits>
 
     void Nodo::estimar(){
-        if(parcial->getNumVisitadas() == problema->numeroCiudades())
-            estimacion  = -1;
-        else{
-            int ciudad = parcial->ciudadVisitada(parcial->getNumVisitadas()-1);
-            estimacion = (1.0)/(0.0);
-            for(int i = 0; i < parcial->getNumCiudades();i++){
-                if(!parcial->visitada(i) && ciudad != i && problema->elementoMatrizDistancias(ciudad,i) < estimacion)
-                    estimacion = problema->elementoMatrizDistancias(ciudad,i);
+        estimacion = parcial->distanciaTotal() - problema->elementoMatrizDistancias(parcial->ciudadVisitada(0), parcial->ciudadVisitada(parcial->getNumVisitadas()-1));
+        if(parcial->getNumVisitadas() < problema->numeroCiudades()){
+            int min_0, min_N; min_0 = min_N = std::numeric_limits<int>::max();
+            for(int i = 0; i < problema->numeroCiudades(); i++){
+                if(!parcial->visitada(i)){
+                    //Add min distances to first city
+                    if(problema->elementoMatrizDistancias(i,parcial->ciudadVisitada(0)) < min_0)
+                        min_0 = problema->elementoMatrizDistancias(i,parcial->ciudadVisitada(0));
+                    //Add min distances to last city
+                    if(problema->elementoMatrizDistancias(i,parcial->ciudadVisitada(parcial->getNumVisitadas()-1)) < min_N)
+                        min_N = problema->elementoMatrizDistancias(i,parcial->ciudadVisitada(parcial->getNumVisitadas()-1));
+
+                    if (parcial->getNumVisitadas() < problema->numeroCiudades()-1){
+                        //Add min distances between non-visited
+                        int min = std::numeric_limits<int>::max();
+                        for(int j = 0; j < problema->numeroCiudades(); j++){
+                            if(j != i && !parcial->visitada(j) && problema->elementoMatrizDistancias(i,j) < min)
+                                min = problema->elementoMatrizDistancias(i,j);
+                        }
+                        estimacion += min;
+                    }
+                }
             }
+            estimacion += (min_0 + min_N);
+//            cout << "Estimacion: " << estimacion << " Coste: " << parcial->distanciaTotal() << " min_0: " << min_0 << " min_N: " << min_N << endl;
         }
+        //if(parcial->getNumVisitadas() == problema->numeroCiudades())
+        //    estimacion  = -1;
+        //else{
+        //    int ciudad = parcial->ciudadVisitada(parcial->getNumVisitadas()-1);
+        //    estimacion = (1.0)/(0.0);
+        //    for(int i = 0; i < parcial->getNumCiudades();i++){
+        //        if(!parcial->visitada(i) && ciudad != i && problema->elementoMatrizDistancias(ciudad,i) < estimacion)
+        //            estimacion = problema->elementoMatrizDistancias(ciudad,i);
+        //    }
+        //}
     }
 
     TSPBranchAndBound::TSPBranchAndBound(TSPProblema *problema)
@@ -29,14 +56,14 @@
 
     vector <Nodo> Nodo::getHijos() const{
         vector <Nodo> hijos;
-        if(estimacion != -1)
-            for(int i = 0; i < problema->numeroCiudades(); i++){
-                if(!parcial->visitada(i)){
-                    TSPSolucion *newparcial = new TSPSolucion(*parcial);
-                    newparcial->pushCiudad(i);
-                    hijos.push_back(Nodo(problema,newparcial));
-                }
+        //if(estimacion != -1)
+        for(int i = 0; i < problema->numeroCiudades(); i++){
+            if(!parcial->visitada(i)){
+                TSPSolucion *newparcial = new TSPSolucion(*parcial);
+                newparcial->pushCiudad(i);
+                hijos.push_back(Nodo(problema,newparcial));
             }
+        }
         return hijos;
     }
 

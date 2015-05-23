@@ -23,7 +23,7 @@
         Nodo(TSPProblema *problema, TSPSolucion *solucion){
             this->problema = problema;
             parcial = solucion;
-            estimar();
+            //estimar();
         }
 
         double eraseNode(){

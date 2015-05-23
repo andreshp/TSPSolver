@@ -1,4 +1,5 @@
 # include "TSPProblema.h"
+# include <limits>
 
 using namespace std;
 
