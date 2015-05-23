@@ -52,10 +52,9 @@
         TSPBranchAndBound(TSPProblema *problema);
 
         void resolver(vector <int> & candidatos,priority_queue <int> min_coste);
-        void resolver();
+        pair<long long,long long> resolver();
 
         inline TSPSolucion *obtenerSolucion(){
-            resolver();
             return solucion;
         }
         

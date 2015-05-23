@@ -439,10 +439,13 @@ void Menu::realizarOpcionMenuPrincipal(int opcion){
         }
         case 12:{
             crono.start();
+            pair<long long, long long> recs = solucion_bb.resolver();
             solucion_actual = solucion_bb.obtenerSolucion();
             soluciones.insertarSolucion(solucion_actual);
             
             // Se imprime la solución calculada:
+            cout << "\nNodos recorridos: " << recs.first << endl;
+            cout << "\nSoluciones recorridas: " << recs.second << endl;
             cout << "\nSolución al problema:\n";
             solucion_actual->imprimirSolucion();
             cout << endl;

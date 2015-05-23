@@ -41,7 +41,9 @@
     }
 
 
-    void TSPBranchAndBound::resolver(){
+    pair<long long, long long> TSPBranchAndBound::resolver(){
+        long long count_nodes = 1;
+        long long count_solutions = 1;
         //Initialize queue pushing root node.
         priority_queue<Nodo> queue;
         TSPSolucion *sol_root = new TSPSolucion(problema,&nombre_algoritmo);
@@ -56,6 +58,7 @@
         while(!queue.empty() && queue.top().getEstimacion() < mejor_sol){
             Nodo n = queue.top();
             queue.pop();
+            count_nodes++;
             
             //Add to queue son nodes
             vector <Nodo> hijos = n.getHijos();
@@ -68,6 +71,7 @@
 
             //Update best solution if needed.
             if(n.getSolucion()->getNumVisitadas() == problema->numeroCiudades()){
+                count_solutions++;
                 if(n.getSolucion()->distanciaTotal() < mejor_sol){
                     delete solucion;
                     solucion = n.getSolucion();
@@ -76,4 +80,5 @@
                 else n.eraseNode();
             }
         }
+        return pair<long long, long long>(count_nodes, count_solutions);
     }
