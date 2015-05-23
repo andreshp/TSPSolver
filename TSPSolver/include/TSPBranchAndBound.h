@@ -7,7 +7,7 @@
     # include <queue>
     # include <set> 
 
-    struct Nodo{
+    class Nodo{
     private:
         TSPSolucion *parcial;
         TSPProblema *problema;
@@ -21,24 +21,24 @@
         void estimar();
 
         Nodo(TSPProblema *problema, TSPSolucion *solucion){
-            problema = problema;
+            this->problema = problema;
             parcial = solucion;
             estimar();
         }
 
-        ~Nodo(){
+        double eraseNode(){
             delete parcial;
+            estimacion = 0;
         }
-
         double getEstimacion() const{
             return estimacion;
         }
 
-        TSPSolucion getSolucion() const{
-            return *parcial;
+        TSPSolucion *getSolucion() const{
+            return parcial;
         }
 
-        set<int> getHijos() const;
+        vector <Nodo> getHijos() const;
 
 
     };
@@ -55,6 +55,7 @@
         void resolver();
 
         inline TSPSolucion *obtenerSolucion(){
+            resolver();
             return solucion;
         }
         

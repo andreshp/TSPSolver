@@ -4,7 +4,7 @@
 # Compilador y Flags:
 CXX=g++
 CC=$(CXX)
-CPPFLAGS=-c -g
+CPPFLAGS=-c -g -O2
 CXXFLAGS=-I$(INCLUDE)
 LDFLAGS=-L$(LIB)
 LOADLIBS=-lutilities -lalgorithms

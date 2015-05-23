@@ -771,7 +771,9 @@ bool TSPSolucion::operator==(const TSPSolucion &otra_solucion) const{
 void TSPSolucion::pushCiudad(int ciudad){
     if(num_visitadas < num_ciudades){
         orden_ciudades[num_visitadas] = ciudad;
-        coste += problema->elementoMatrizDistancias(orden_ciudades[num_visitadas],orden_ciudades[num_visitadas+1]);
+        ciudades_visitadas[ciudad] = true;
+        if(num_visitadas > 0)
+            coste += problema->elementoMatrizDistancias(orden_ciudades[num_visitadas-1],orden_ciudades[num_visitadas]);
         num_visitadas++;
         if(num_visitadas == num_ciudades)
             coste += problema->elementoMatrizDistancias(orden_ciudades[num_visitadas-1],orden_ciudades[0]);
@@ -779,9 +781,12 @@ void TSPSolucion::pushCiudad(int ciudad){
 }
 
 int TSPSolucion::popCiudad(){
-    if(num_visitadas == num_ciudades)
-        coste -= problema->elementoMatrizDistancias(orden_ciudades[num_visitadas-1],orden_ciudades[0]);
-    num_visitadas--;
-    coste -= problema->elementoMatrizDistancias(orden_ciudades[num_visitadas-1],orden_ciudades[num_visitadas]);
-    return orden_ciudades[num_visitadas];
+    if(num_visitadas > 0){
+        if(num_visitadas == num_ciudades)
+            coste -= problema->elementoMatrizDistancias(orden_ciudades[num_visitadas-1],orden_ciudades[0]);
+        num_visitadas--;
+        coste -= problema->elementoMatrizDistancias(orden_ciudades[num_visitadas-1],orden_ciudades[num_visitadas]);
+        ciudades_visitadas[orden_ciudades[num_visitadas]] = false;
+        return orden_ciudades[num_visitadas];
+    }
 }
