@@ -8,7 +8,7 @@ Menu::Menu(TSPProblema *nuevo_problema)
     heuristica_grasp(nuevo_problema, &mejora_local), heuristica_ils(nuevo_problema, &mejora_local), simulated_annealing(nuevo_problema), 
     generador_aleatorio(nuevo_problema), heuristica_genetico(nuevo_problema, &generador_aleatorio, &heuristica_grasp, &mejora_local),
     heuristica_hormiga(nuevo_problema), soluciones(nuevo_problema, &heuristica_grasp),
-    problema(nuevo_problema), plotter(nuevo_problema), iotsp(nuevo_problema,&soluciones), nivel(1),solucion_bb(nuevo_problema)
+    problema(nuevo_problema), plotter(nuevo_problema), iotsp(nuevo_problema,&soluciones), nivel(1),solucion_bb(nuevo_problema),solucion_back(nuevo_problema)
 {}
     
 //Método para comprobar la validez del valor introducido.
@@ -81,6 +81,7 @@ void Menu::showOptions() const{
              << "\n10. Información."
              << "\n11. Ajuste de parámetros de los algoritmos."
              << "\n12. ¡NEW! Resolución Branch and Bound (β 1.0)"
+             << "\n13. ¡NEW! Resolución Backtracking (β 1.0)"
              << "\n-1. Salir del programa."
              << "\n\n";
             break;
@@ -441,6 +442,25 @@ void Menu::realizarOpcionMenuPrincipal(int opcion){
             crono.start();
             pair<long long, long long> recs = solucion_bb.resolver();
             solucion_actual = solucion_bb.obtenerSolucion();
+            soluciones.insertarSolucion(solucion_actual);
+            
+            // Se imprime la solución calculada:
+            cout << "\nNodos recorridos: " << recs.first << endl;
+            cout << "\nSoluciones recorridas: " << recs.second << endl;
+            cout << "\nSolución al problema:\n";
+            solucion_actual->imprimirSolucion();
+            cout << endl;
+            
+            crono.message();
+            cout << endl;
+            nivel++;
+            
+            break;
+        }
+        case 13:{
+            crono.start();
+            pair<long long, long long> recs = solucion_back.resolver();
+            solucion_actual = solucion_back.obtenerSolucion();
             soluciones.insertarSolucion(solucion_actual);
             
             // Se imprime la solución calculada:

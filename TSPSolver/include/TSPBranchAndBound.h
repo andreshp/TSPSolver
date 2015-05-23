@@ -51,7 +51,6 @@
     public:
         TSPBranchAndBound(TSPProblema *problema);
 
-        void resolver(vector <int> & candidatos,priority_queue <int> min_coste);
         pair<long long,long long> resolver();
 
         inline TSPSolucion *obtenerSolucion(){

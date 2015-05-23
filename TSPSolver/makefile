@@ -23,8 +23,8 @@ EXECUTABLE=tsp
 
 OBJECTS=$(OBJ)/main.o $(ALGORITHMS_OBJECTS) $(UTILITIES_OBJECTS)
 
-ALGORITHMS_OBJECTS=$(OBJ)/TSPMejorInsercion.o $(OBJ)/TSPVecinoMasCercano.o $(OBJ)/TSPLocalSearch.o $(OBJ)/TSPILS.o $(OBJ)/TSPGRASP.o $(OBJ)/TSPSA.o $(OBJ)/TSPRandom.o $(OBJ)/TSPGenetico.o $(OBJ)/TSPACO.o $(OBJ)/TSPBranchAndBound.o
-ALGORITHMS_INCLUDES=$(INCLUDE)/TSPMejorInsercion.h $(INCLUDE)/TSPVecinoMasCercano.h $(INCLUDE)/TSPLocalSearch.h $(INCLUDE)/TSPILS.h $(INCLUDE)/TSPGRASP.h $(INCLUDE)/TSPSA.h $(INCLUDE)/TSPRandom.h $(INCLUDE)/TSPGenetico.h $(INCLUDE)/TSPACO.h $(INCLUDE)/TSPBranchAndBound.h
+ALGORITHMS_OBJECTS=$(OBJ)/TSPMejorInsercion.o $(OBJ)/TSPVecinoMasCercano.o $(OBJ)/TSPLocalSearch.o $(OBJ)/TSPILS.o $(OBJ)/TSPGRASP.o $(OBJ)/TSPSA.o $(OBJ)/TSPRandom.o $(OBJ)/TSPGenetico.o $(OBJ)/TSPACO.o $(OBJ)/TSPBranchAndBound.o $(OBJ)/TSPBacktracking.o
+ALGORITHMS_INCLUDES=$(INCLUDE)/TSPMejorInsercion.h $(INCLUDE)/TSPVecinoMasCercano.h $(INCLUDE)/TSPLocalSearch.h $(INCLUDE)/TSPILS.h $(INCLUDE)/TSPGRASP.h $(INCLUDE)/TSPSA.h $(INCLUDE)/TSPRandom.h $(INCLUDE)/TSPGenetico.h $(INCLUDE)/TSPACO.h $(INCLUDE)/TSPBranchAndBound.h $(INCLUDE)/TSPBacktracking.h
 
 UTILITIES_OBJECTS=$(OBJ)/TSPPunto.o $(OBJ)/TSPProblema.o $(OBJ)/TSPSolucion.o $(OBJ)/TSPColeccionSoluciones.o $(OBJ)/Cronometro.o   $(OBJ)/TSPPlot.o $(OBJ)/Menu.o $(OBJ)/ioTSP.o
 UTILITIES_INCLUDES=$(INCLUDE)/TSPPunto.h $(INCLUDE)/TSPProblema.h $(INCLUDE)/TSPSolucion.h $(INCLUDE)/TSPColeccionSoluciones.h $(INCLUDE)/Cronometro.h $(INCLUDE)/TSPPlot.h $(INCLUDE)/Menu.h $(INCLUDE)/ioTSP.h
@@ -141,6 +141,11 @@ $(OBJ)/TSPGenetico.o: $(SRC)/TSPGenetico.cpp $(INCLUDE)/TSPProblema.h $(INCLUDE)
 $(OBJ)/TSPBranchAndBound.o: $(SRC)/TSPBranchAndBound.cpp $(INCLUDE)/TSPProblema.h $(INCLUDE)/TSPSolucion.h $(INCLUDE)/TSPLocalSearch.h $(INCLUDE)/TSPGRASP.h $(INCLUDE)/TSPBranchAndBound.h 
 	@echo "Creando el modulo objeto $@..."
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $@ $(SRC)/TSPBranchAndBound.cpp
+
+# Creación del objeto TSPBranchAndBound.o
+$(OBJ)/TSPBacktracking.o: $(SRC)/TSPBacktracking.cpp $(INCLUDE)/TSPProblema.h $(INCLUDE)/TSPSolucion.h $(INCLUDE)/TSPLocalSearch.h $(INCLUDE)/TSPGRASP.h $(INCLUDE)/TSPBacktracking.h 
+	@echo "Creando el modulo objeto $@..."
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $@ $(SRC)/TSPBacktracking.cpp
 
 #Creación del objeto TSPACO.o
 $(OBJ)/TSPACO.o: $(SRC)/TSPACO.cpp $(INCLUDE)/TSPProblema.h $(INCLUDE)/TSPSolucion.h $(INCLUDE)/TSPLocalSearch.h $(INCLUDE)/TSPACO.h
