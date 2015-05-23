@@ -344,6 +344,22 @@
             inline bool getIntercambioCiudades() const{
                   return intercambio_ciudades;
             }
+
+            inline int getNumCiudades(){
+                  return num_ciudades;
+            }
+
+            inline bool visitada(int ind_ciudad){
+                  return ciudades_visitadas[ind_ciudad];
+            }
+
+            inline int getNumVisitadas(){
+                  return num_visitadas;
+            }
+
+            void pushCiudad(int ciudad);
+
+            int popCiudad();
     };
 
 # endif

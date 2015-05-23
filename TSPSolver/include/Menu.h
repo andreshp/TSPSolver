@@ -19,6 +19,8 @@
 	# include "Cronometro.h"
 	# include "TSPPlot.h"
 	# include "ioTSP.h"
+	# include "TSPBranchAndBound.h"
+	# include "TSPBacktracking.h"
 
 	using namespace std;
 		
@@ -109,6 +111,10 @@
 		* @brief Objeto encargado de la representación y lectura de ficheros.
 		*/
 		IO_TSP iotsp;
+
+		TSPBranchAndBound solucion_bb;
+
+		TSPBacktracking solucion_back;
 
 		/* MÉTODOS PRIVADOS */
 
