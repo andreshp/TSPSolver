@@ -16,18 +16,16 @@ A TSP user friendly Solver.
 
 TSPSolver allows to plot the solutions found with the algorithms. Here we present some examples on the instance eil101, with 101 cities. More TSP problems can be found in [TSPLIB](http://www.iwr.uni-heidelberg.de/groups/comopt/software/TSPLIB95/index.html).
 
-### Optimal Solution
+### Optimal Solution - Objective function: 629
 ![](https://github.com/andreshp/TSPSolver/blob/master/Images/eil101-SolucionOptima-629.png)
-### Snug GA
-
-### Simulating Annealing
+### ACO (with Lin-Kernighan local search) - Objective function: 631
+![](https://github.com/andreshp/TSPSolver/blob/master/Images/eil101-ACO-1.93seg-631.png)
+### Simulating Annealing - Objective function: 665
 ![](https://github.com/andreshp/TSPSolver/blob/master/Images/eil101-SA-665.68-1.3seg-10000iter.png)
-### GRASP
+### GRASP - Objective function: 677
 ![](https://github.com/andreshp/TSPSolver/blob/master/Images/eil101-GRASP-300iteraciones-677-1.37seg.png)
-### ILS
+### ILS - Objective function: 690
 ![](https://github.com/andreshp/TSPSolver/blob/master/Images/eil101-ILS-120iteraciones-690-1%2C49sec.png)
-### Nearest Neighbor Algorithm
-![](https://github.com/andreshp/TSPSolver/blob/master/Images/eil101-VMC-736.368-0.01636seg.png)
 
 
 ## Authors
